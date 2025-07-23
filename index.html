@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="top-bar">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search photos and illustrations"
+      />
+      <button onclick="loadImages(document.getElementById('search').value)">
+        🔍
+      </button>
+    </div>
+
+    <div class="nav-menu">
+      <button onclick="loadImages('featured')">Featured</button>
+      <button onclick="loadImages('wallpapers')">Wallpapers</button>
+      <button onclick="loadImages('nature')">Nature</button>
+      <button onclick="loadImages('3d renders')">3D Renders</button>
+      <button onclick="loadImages('textures')">Textures</button>
+      <button onclick="loadImages('travel')">Travel</button>
+      <button onclick="loadImages('film')">Film</button>
+      <button onclick="loadImages('people')">People</button>
+      <button onclick="loadImages('architecture')">Architecture</button>
+      <button onclick="loadImages('street photography')">
+        Street Photography
+      </button>
+      <button onclick="loadImages('experimental')">Experimental</button>
+      <button onclick="loadImages('animals')">Animals</button>
+      <button onclick="loadImages('technology')">Technology</button>
+      <button onclick="loadImages('sports')">Sports</button>
+      <button onclick="loadImages('business')">Business</button>
+      <button onclick="loadImages('fashion')">Fashion</button>
+      <button onclick="loadImages('space')">Space</button>
+    </div>
+
+    <div id="gallery" class="gallery"></div>
+    <div style="margin: 20px">
+      <button onclick="loadMore()" class="load-more-btn">Load More</button>
+    </div>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+      <span class="nav left" onclick="event.stopPropagation(); navigate(-1)"
+        >&#10094;</span
+      >
+      <div class="lightbox-content" onclick="event.stopPropagation();">
+        <img id="lightbox-img" src="" alt="Lightbox Image" />
+        <div id="lightbox-info" class="lightbox-info"></div>
+      </div>
+      <span class="nav right" onclick="event.stopPropagation(); navigate(1)"
+        >&#10095;</span
+      >
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
