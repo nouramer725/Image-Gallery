@@ -4,9 +4,15 @@ let currentIndex = 0;
 
 const UNSPLASH_ACCESS_KEY = "QCceuU-6Y9eem8501neirjnNvtnTloWpYkUcTJJ85uA";
 
+// Track current query and random state for loadMore
+let currentQuery = "";
+let isRandomMode = true;
+
 async function loadImages(query, isRandom = false) {
   gallery.innerHTML = "<p>Loading...</p>";
   currentImages = [];
+  currentQuery = query;
+  isRandomMode = isRandom;
 
   let url;
   if (isRandom) {
@@ -34,6 +40,33 @@ async function loadImages(query, isRandom = false) {
   });
 
   currentImages = images;
+}
+
+async function loadMore() {
+  let url;
+  if (isRandomMode) {
+    url = `https://api.unsplash.com/photos/random?count=10&client_id=${UNSPLASH_ACCESS_KEY}`;
+  } else {
+    url = `https://api.unsplash.com/search/photos?query=${currentQuery}&per_page=10&client_id=${UNSPLASH_ACCESS_KEY}`;
+  }
+
+  const res = await fetch(url);
+  const data = await res.json();
+  const images = isRandomMode ? data : data.results;
+
+  images.forEach((imgObj, index) => {
+    const img = document.createElement("img");
+    img.src = imgObj.urls.small;
+    img.alt = imgObj.alt_description || currentQuery;
+    img.onclick = () => openLightbox(currentImages.length + index);
+
+    const container = document.createElement("div");
+    container.className = "gallery-item";
+    container.appendChild(img);
+    gallery.appendChild(container);
+  });
+
+  currentImages = currentImages.concat(images);
 }
 
 function openLightbox(index) {
@@ -67,6 +100,12 @@ function navigate(direction) {
   openLightbox(currentIndex);
 }
 
+const loadMoreBtn = document.getElementById("load-more-btn");
+if (loadMoreBtn) {
+  loadMoreBtn.onclick = () => {
+    loadMore();
+  };
+}
 window.onload = () => {
   loadImages("", true); // true = load random images
 };
